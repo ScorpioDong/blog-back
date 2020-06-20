@@ -4,5 +4,5 @@
 >
 > 后端项目使用的SpringBoot + MyBatisPlus + MySQL
 >
-> 前端项目地址： [www.github.com/ScorpioDong](www.github.com/ScorpioDong)
+> 前端项目地址： [https://github.com/ScorpioDong/blog-fore](https://github.com/ScorpioDong/blog-fore)
 
