@@ -1,0 +1,41 @@
+GET http://localhost:8080/api/blog/1/5
+Accept: application/json
+
+###
+GET http://localhost:8080/api/blog/1
+Accept: application/json
+
+###
+POST http://localhost:8080/api/blog/add
+Accept: application/json
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6Ijk3MTEwMSIsImV4cCI6MTU5Mjc5MTQ0OCwidXNlcm5hbWUiOiJhZG1pbiJ9.5-dJOx9KaLmR2GHXSBr8FBaWZMVxQme4UNAnj7D1d6A
+
+{
+  "sortId": 1,
+  "title": "测试2",
+  "description": "这是一个测试文章2",
+  "content": "这是一个测试文章2",
+  "cover": ""
+}
+
+###
+PUT http://localhost:8080/api/blog/update
+Accept: application/json
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6Ijk3MTEwMSIsImV4cCI6MTU5Mjc5MTQ0OCwidXNlcm5hbWUiOiJhZG1pbiJ9.5-dJOx9KaLmR2GHXSBr8FBaWZMVxQme4UNAnj7D1d6A
+
+{
+  "id": 4,
+  "sortId": 2,
+  "title": "测试2",
+  "description": "这是一个测试文章2",
+  "content": "这是一个测试文章2",
+  "cover": ""
+}
+
+###
+DELETE http://localhost:8080/api/blog/5
+Accept: application/json
+Content-Type: application/json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXNzd29yZCI6Ijk3MTEwMSIsImV4cCI6MTU5Mjc5MTQ0OCwidXNlcm5hbWUiOiJhZG1pbiJ9.5-dJOx9KaLmR2GHXSBr8FBaWZMVxQme4UNAnj7D1d6A
