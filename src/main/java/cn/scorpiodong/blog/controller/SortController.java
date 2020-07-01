@@ -1,10 +1,10 @@
 package cn.scorpiodong.blog.controller;
 
+import cn.scorpiodong.blog.entity.Page;
 import cn.scorpiodong.blog.entity.Sort;
 import cn.scorpiodong.blog.service.SortService;
 import cn.scorpiodong.blog.util.JsonResult;
 import cn.scorpiodong.blog.util.token.TokenRequired;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +23,13 @@ public class SortController {
 
     @GetMapping("/all")
     public JsonResult getAll() {
-        List<Sort> list = sortService.list();
+        List<Sort> list = sortService.all();
         return JsonResult.of(list);
     }
 
     @GetMapping("/{id}")
     public JsonResult getOne(@PathVariable Integer id) {
-        Sort detail = sortService.getDetail(id);
+        Sort detail = sortService.one(id);
         return JsonResult.of(detail);
     }
 
@@ -52,7 +52,7 @@ public class SortController {
     @PutMapping("/update")
     @TokenRequired
     public JsonResult update(@RequestBody Sort sort) {
-        boolean result = sortService.saveOrUpdate(sort);
+        boolean result = sortService.update(sort);
         if (result) {
             return JsonResult.SUCCESS;
         }
@@ -61,8 +61,8 @@ public class SortController {
 
     @DeleteMapping("/{id}")
     @TokenRequired
-    public JsonResult delete(@PathVariable String id) {
-        boolean result = sortService.removeById(id);
+    public JsonResult delete(@PathVariable Integer id) {
+        boolean result = sortService.remove(id);
         if (result) {
             return JsonResult.SUCCESS;
         }

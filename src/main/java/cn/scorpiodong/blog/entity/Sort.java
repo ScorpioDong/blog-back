@@ -1,12 +1,5 @@
 package cn.scorpiodong.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -16,15 +9,11 @@ import java.util.List;
  * @author makejava
  * @since 2020-06-15 08:23:08
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Sort implements Serializable {
+public class Sort extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -34500551127492968L;
     /**
      * id
      */
-    @TableId(type = IdType.AUTO)
     private Integer id;
     /**
      * 分类名
@@ -38,8 +27,41 @@ public class Sort implements Serializable {
     /**
      * 博客列表
      */
-    @TableField(exist = false)
     private List<Blog> blogs;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Blog> getBlogs() {
+        return blogs;
+    }
+
+    public void setBlogs(List<Blog> blogs) {
+        this.blogs = blogs;
+    }
 
     @Override
     public String toString() {

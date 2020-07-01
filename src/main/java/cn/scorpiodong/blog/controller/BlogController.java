@@ -1,10 +1,10 @@
 package cn.scorpiodong.blog.controller;
 
 import cn.scorpiodong.blog.entity.Blog;
+import cn.scorpiodong.blog.entity.Page;
 import cn.scorpiodong.blog.service.BlogService;
 import cn.scorpiodong.blog.util.JsonResult;
 import cn.scorpiodong.blog.util.token.TokenRequired;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class BlogController {
 
     @GetMapping("/{id}")
     public JsonResult getOne(@PathVariable Integer id) {
-        Blog detail = blogService.getDetail(id);
+        Blog detail = blogService.one(id);
         return JsonResult.of(detail);
     }
 
@@ -49,7 +49,7 @@ public class BlogController {
     @TokenRequired
     public JsonResult update(@RequestBody Blog blog) {
         blog.setUpdateTime(new Date());
-        boolean result = blogService.saveOrUpdate(blog);
+        boolean result = blogService.update(blog);
         if (result) {
             return JsonResult.SUCCESS;
         }
@@ -58,8 +58,8 @@ public class BlogController {
 
     @DeleteMapping("/{id}")
     @TokenRequired
-    public JsonResult delete(@PathVariable String id) {
-        boolean result = blogService.removeById(id);
+    public JsonResult delete(@PathVariable Integer id) {
+        boolean result = blogService.remove(id);
         if (result) {
             return JsonResult.SUCCESS;
         }

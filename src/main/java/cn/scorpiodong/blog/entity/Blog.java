@@ -1,12 +1,6 @@
 package cn.scorpiodong.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,15 +11,11 @@ import java.util.Date;
  * @author makejava
  * @since 2020-06-15 08:27:56
  */
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Blog implements Serializable {
+public class Blog extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 706687999355799650L;
     /**
     * id
     */
-    @TableId(type = IdType.AUTO)
     private Integer id;
     /**
      * 分类id
@@ -42,7 +32,6 @@ public class Blog implements Serializable {
     /**
     * 内容
     */
-    @TableField(select = false)
     private String content;
     /**
     * 封面图
@@ -61,8 +50,94 @@ public class Blog implements Serializable {
     /**
      * 分类对象
      */
-    @TableField(exist = false)
     private Sort sort;
+
+    /**
+     * md路径
+     */
+    private String contentPath;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(Integer sortId) {
+        this.sortId = sortId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Sort getSort() {
+        return sort;
+    }
+
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
+    public String getContentPath() {
+        return contentPath;
+    }
+
+    public void setContentPath(String contentPath) {
+        this.contentPath = contentPath;
+    }
 
     @Override
     public String toString() {

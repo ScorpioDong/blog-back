@@ -40,9 +40,7 @@ public class WebController {
 
     @GetMapping("/info")
     public JsonResult getWeb() {
-        Web web = webService.list().get(0);
-        web.setUsername(null);
-        web.setPassword(null);
+        Web web = webService.info();
         return JsonResult.of(web);
     }
 
