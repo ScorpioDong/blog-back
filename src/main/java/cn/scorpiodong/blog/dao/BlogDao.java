@@ -19,16 +19,16 @@ public class BlogDao extends BaseMemoryDao<Blog> {
     @Override
     public Blog select(Integer id) {
         Blog blog = super.select(id);
-        blog.setContent(readToString(blog.getContentPath()));
+        blog.setContent(readToString(System.getProperty("user.dir") + blog.getContentPath()));
         return blog;
     }
 
     @Override
     public boolean insert(Blog blog) {
         try {
-            String fileName = blog.getTitle() + "-" + UUID.randomUUID() + ".md";
-            String filePath = System.getProperty("user.dir") + "/.blog/data/markdown/";
-            File dest = new File(filePath + fileName);
+            String fileName = UUID.randomUUID() + ".md";
+            String filePath = "/.blog/data/markdown/";
+            File dest = new File(System.getProperty("user.dir") + filePath + fileName);
             Writer writer = new BufferedWriter(new FileWriter(dest));
             writer.write(blog.getContent());
             writer.flush();
@@ -46,13 +46,12 @@ public class BlogDao extends BaseMemoryDao<Blog> {
     @Override
     public Blog update(Blog blog) {
         try {
-            File dest = new File(blog.getContentPath());
+            File dest = new File(System.getProperty("user.dir") + blog.getContentPath());
             Writer writer = new BufferedWriter(new FileWriter(dest));
             writer.write(blog.getContent());
             writer.flush();
             writer.close();
 
-            blog.setContentPath(blog.getContentPath());
             blog.setContent(null);
         } catch (IOException e) {
             e.printStackTrace();

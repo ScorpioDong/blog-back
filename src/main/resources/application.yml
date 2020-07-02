@@ -4,30 +4,6 @@ server:
     context-path: /api
 
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: 971101
-    url: jdbc:mysql://182.61.3.51:3306/blog?useSSL=false
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      initial-size: 8
-      min-idle: 1
-      max-active: 20
-      max-wait: 60000
-      time-between-eviction-runsMillis: 60000
-      min-evictable-idle-timeMillis: 300000
-      validation-query: select 'x' FROM DUAL
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      pool-prepared-statements: true
-      max-open-prepared-statements: 20
-      max-pool-prepared-statement-per-connection-size: 20
-      filters: stat
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-      use-global-data-source-stat: true
-
   mvc:
     static-path-pattern: /**
 
@@ -38,14 +14,8 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
-
-mybatis-plus:
-  mapper-locations: classpath:/mapper/*.xml
-  type-aliases-package: cn.scorpiodong.blog.entity
-  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    cache-enabled: false
-
 logging:
   level:
     root: info
+  file:
+    name: spring.log
