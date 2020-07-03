@@ -2,8 +2,10 @@ package cn.scorpiodong.blog.dao;
 
 import cn.scorpiodong.blog.entity.BaseEntity;
 import cn.scorpiodong.blog.entity.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
 
+import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2020/6/30 7:38 下午
  */
+@Slf4j
 public class BaseMemoryDao<T extends BaseEntity> {
     protected String path;
     protected List<T> list;
@@ -25,6 +28,7 @@ public class BaseMemoryDao<T extends BaseEntity> {
         this.load();
     }
 
+    @PreDestroy
     public void save() {
         try {
             Writer writer = new FileWriter(new File(this.path));
@@ -32,6 +36,7 @@ public class BaseMemoryDao<T extends BaseEntity> {
             map.put("count", this.count);
             map.put("list", this.list);
             new Yaml().dump(map, writer);
+            log.info(this.getClass().getName() + " is saved!");
         } catch (IOException e) {
             e.printStackTrace();
         }

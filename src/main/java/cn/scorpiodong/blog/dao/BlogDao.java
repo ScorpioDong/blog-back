@@ -1,12 +1,13 @@
 package cn.scorpiodong.blog.dao;
 
 import cn.scorpiodong.blog.entity.Blog;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author ScorpioDong
@@ -19,14 +20,17 @@ public class BlogDao extends BaseMemoryDao<Blog> {
     @Override
     public Blog select(Integer id) {
         Blog blog = super.select(id);
-        blog.setContent(readToString(System.getProperty("user.dir") + blog.getContentPath()));
-        return blog;
+        Blog obj = new Blog();
+        BeanUtils.copyProperties(blog, obj, Blog.class);
+        obj.setContent(readToString(System.getProperty("user.dir") + blog.getContentPath()));
+        return obj;
     }
 
     @Override
     public boolean insert(Blog blog) {
         try {
-            String fileName = UUID.randomUUID() + ".md";
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            String fileName = blog.getTitle() + "-" + format.format(blog.getCreateTime()) + ".md";
             String filePath = "/.blog/data/markdown/";
             File dest = new File(System.getProperty("user.dir") + filePath + fileName);
             Writer writer = new BufferedWriter(new FileWriter(dest));
