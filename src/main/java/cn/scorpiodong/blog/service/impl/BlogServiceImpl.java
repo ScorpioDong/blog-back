@@ -19,8 +19,13 @@ public class BlogServiceImpl implements BlogService {
     private SortDao sortDao;
 
     @Override
-    public Blog one(Integer id) {
-        Blog blog = blogDao.select(id);
+    public Blog one(Integer id, boolean isMarkdown) {
+        Blog blog;
+        if (!isMarkdown) {
+            blog = blogDao.select(id);
+        } else {
+            blog = blogDao.selectMarkdown(id);
+        }
         blog.setSort(sortDao.select(blog.getSortId()));
         return blog;
     }

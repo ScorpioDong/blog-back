@@ -9,7 +9,7 @@ import cn.scorpiodong.blog.entity.Page;
  * @date 2020/7/1 7:45 下午
  */
 public interface BlogService {
-    Blog one(Integer id);
+    Blog one(Integer id, boolean isMarkdown);
 
     Page<Blog> page(Page<Blog> page);
 

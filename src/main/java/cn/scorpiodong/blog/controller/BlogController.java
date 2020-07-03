@@ -21,13 +21,13 @@ import java.util.Date;
 public class BlogController {
     private BlogService blogService;
 
-    @GetMapping("/{id}")
-    public JsonResult getOne(@PathVariable Integer id) {
-        Blog detail = blogService.one(id);
+    @GetMapping("/one/{id}/{markdown}")
+    public JsonResult getOne(@PathVariable Integer id, @PathVariable boolean markdown) {
+        Blog detail = blogService.one(id, markdown);
         return JsonResult.of(detail);
     }
 
-    @GetMapping("/{current}/{size}")
+    @GetMapping("/page/{current}/{size}")
     public JsonResult getPage(@PathVariable Integer current, @PathVariable Integer size) {
         Page<Blog> page = blogService.page(new Page<>(current, size));
         return JsonResult.of(page);

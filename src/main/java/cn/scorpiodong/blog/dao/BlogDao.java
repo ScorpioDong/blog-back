@@ -1,6 +1,7 @@
 package cn.scorpiodong.blog.dao;
 
 import cn.scorpiodong.blog.entity.Blog;
+import cn.scorpiodong.blog.util.MarkdownUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,15 @@ public class BlogDao extends BaseMemoryDao<Blog> {
 
     @Override
     public Blog select(Integer id) {
+        Blog blog = super.select(id);
+        Blog obj = new Blog();
+        BeanUtils.copyProperties(blog, obj, Blog.class);
+        String markdown = readToString(System.getProperty("user.dir") + blog.getContentPath());
+        obj.setContent(MarkdownUtils.convert(markdown));
+        return obj;
+    }
+
+    public Blog selectMarkdown(Integer id) {
         Blog blog = super.select(id);
         Blog obj = new Blog();
         BeanUtils.copyProperties(blog, obj, Blog.class);
