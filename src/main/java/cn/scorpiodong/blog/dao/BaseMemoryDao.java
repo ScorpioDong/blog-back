@@ -24,7 +24,7 @@ public class BaseMemoryDao<T extends BaseEntity> {
     protected int count = 0;
 
     protected BaseMemoryDao() {
-        this.path = System.getProperty("user.dir") + "/.blog/data/" + this.getClass().getName() + ".yml";
+        this.path = System.getProperty("user.dir") + "/.blog/data/" + this.getClass().getSimpleName() + ".yml";
         this.load();
     }
 

@@ -29,6 +29,12 @@ public class WebServiceImpl implements WebService {
         return user;
     }
 
+    @Override
+    public boolean update(Web web) {
+        web.setId(0);
+        return webDao.update(web) != null;
+    }
+
     @Autowired
     public void setWebDao(WebDao webDao) {
         this.webDao = webDao;

@@ -1,6 +1,7 @@
 package cn.scorpiodong.blog.dao;
 
 import cn.scorpiodong.blog.entity.Web;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,5 +11,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class WebDao extends BaseMemoryDao<Web> {
-
+    @Override
+    public Web select(Integer id) {
+        Web web = super.select(id);
+        Web obj = new Web();
+        BeanUtils.copyProperties(web, obj);
+        return obj;
+    }
 }

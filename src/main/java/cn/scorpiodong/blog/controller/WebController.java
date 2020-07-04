@@ -3,6 +3,7 @@ package cn.scorpiodong.blog.controller;
 import cn.scorpiodong.blog.entity.Web;
 import cn.scorpiodong.blog.service.WebService;
 import cn.scorpiodong.blog.util.JsonResult;
+import cn.scorpiodong.blog.util.token.TokenRequired;
 import cn.scorpiodong.blog.util.token.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,15 @@ public class WebController {
             HashMap<String, Object> map = new HashMap<>();
             map.put("token", token);
             return JsonResult.of(map);
+        }
+        return JsonResult.DEFAULT_ERROR;
+    }
+
+    @PutMapping("/update")
+    @TokenRequired
+    public JsonResult update(@RequestBody Web web) {
+        if (webService.update(web)) {
+            return JsonResult.SUCCESS;
         }
         return JsonResult.DEFAULT_ERROR;
     }

@@ -11,4 +11,6 @@ public interface WebService {
     Web login(String username, String password);
 
     Web info();
+
+    boolean update(Web web);
 }
