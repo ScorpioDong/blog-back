@@ -3,14 +3,13 @@ package cn.scorpiodong.blog.controller;
 import cn.scorpiodong.blog.util.JsonResult;
 import cn.scorpiodong.blog.util.token.TokenRequired;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -23,6 +22,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/file")
 public class FileController {
+
     @PostMapping("/upload")
     @TokenRequired
     public JsonResult upload(MultipartFile file) {
@@ -31,7 +31,7 @@ public class FileController {
                 return JsonResult.DEFAULT_ERROR.msg("文件不能为空");
             }
             String fileName = file.getOriginalFilename();
-            String suffixName = null;
+            String suffixName;
             if (fileName == null) {
                 return JsonResult.DEFAULT_ERROR.msg("文件名不能为空");
             }
@@ -45,5 +45,18 @@ public class FileController {
             e.printStackTrace();
         }
         return JsonResult.DEFAULT_ERROR;
+    }
+
+    @GetMapping("/imgs")
+    public JsonResult getImg() {
+        String filePath = System.getProperty("user.dir") + "/.blog/assets/upload/";
+        String[] list = new File(filePath).list();
+        List<String> imgs = new ArrayList<>();
+        for (String s : list) {
+            if (!s.startsWith(".")) {
+                imgs.add("/assets/upload/" + s);
+            }
+        }
+        return JsonResult.of(imgs);
     }
 }
