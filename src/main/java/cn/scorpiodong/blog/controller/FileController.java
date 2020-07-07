@@ -37,7 +37,7 @@ public class FileController {
             }
             suffixName = fileName.substring(fileName.lastIndexOf("."));
             fileName = UUID.randomUUID() + suffixName;
-            String filePath = System.getProperty("user.dir") + "/.blog/assets/upload/";
+            String filePath = System.getProperty("user.home") + "/.blog/assets/upload/";
             File dest = new File(filePath + fileName);
             file.transferTo(dest);
             return JsonResult.of("/assets/upload/" + fileName);
@@ -49,7 +49,7 @@ public class FileController {
 
     @GetMapping("/imgs")
     public JsonResult getImg() {
-        String filePath = System.getProperty("user.dir") + "/.blog/assets/upload/";
+        String filePath = System.getProperty("user.home") + "/.blog/assets/upload/";
         String[] list = new File(filePath).list();
         List<String> imgs = new ArrayList<>();
         for (String s : list) {

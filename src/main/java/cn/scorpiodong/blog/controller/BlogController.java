@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ScorpioDong
@@ -27,10 +30,29 @@ public class BlogController {
         return JsonResult.of(detail);
     }
 
+    @GetMapping("/near/{id}")
+    public JsonResult getNear(@PathVariable Integer id) {
+        Blog last = blogService.last(id);
+        Blog next = blogService.next(id);
+        Map<String, Blog> map = new HashMap<>();
+        if (last != null) {
+            map.put("last", last);
+        } else if (next != null) {
+            map.put("next", next);
+        }
+        return JsonResult.of(map);
+    }
+
     @GetMapping("/page/{current}/{size}")
     public JsonResult getPage(@PathVariable Integer current, @PathVariable Integer size) {
         Page<Blog> page = blogService.page(new Page<>(current, size));
         return JsonResult.of(page);
+    }
+
+    @GetMapping("/archives")
+    public JsonResult getArchives() {
+        Map<String, Map<String, List<Blog>>> archives = blogService.archives();
+        return JsonResult.of(archives);
     }
 
     @PostMapping("/add")

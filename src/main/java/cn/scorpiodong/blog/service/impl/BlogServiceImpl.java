@@ -8,6 +8,9 @@ import cn.scorpiodong.blog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author ScorpioDong
  * @version 1.0
@@ -31,8 +34,33 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public Blog last(Integer id) {
+        Blog blog = blogDao.selectPrev(id);
+        if (blog == null) {
+            return null;
+        }
+        blog.setSort(sortDao.select(blog.getSortId()));
+        return blog;
+    }
+
+    @Override
+    public Blog next(Integer id) {
+        Blog blog = blogDao.selectNext(id);
+        if (blog == null) {
+            return null;
+        }
+        blog.setSort(sortDao.select(blog.getSortId()));
+        return blog;
+    }
+
+    @Override
     public Page<Blog> page(Page<Blog> page) {
         return blogDao.selectPage(page);
+    }
+
+    @Override
+    public Map<String, Map<String, List<Blog>>> archives() {
+        return blogDao.selectArchives();
     }
 
     @Override

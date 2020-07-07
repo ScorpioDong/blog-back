@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.scorpiodong</groupId>
     <artifactId>blog</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.4-SNAPSHOT</version>
     <name>blog</name>
     <description>My Blog App</description>
 

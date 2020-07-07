@@ -24,7 +24,7 @@ public class BaseMemoryDao<T extends BaseEntity> {
     protected int count = 0;
 
     protected BaseMemoryDao() {
-        this.path = System.getProperty("user.dir") + "/.blog/data/" + this.getClass().getSimpleName() + ".yml";
+        this.path = System.getProperty("user.home") + "/.blog/data/" + this.getClass().getSimpleName() + ".yml";
         this.load();
     }
 
@@ -67,10 +67,10 @@ public class BaseMemoryDao<T extends BaseEntity> {
         return this.list;
     }
 
-    public Page<T> selectPage(Page<T> page) {
+    public Page<T> selectPage(Page<T> page, List<T> list) {
         int current = page.getCurrent();
         int size = page.getSize();
-        int listSize = this.list.size();
+        int listSize = list.size();
         int fromIndex = size * (current - 1);
         int toIndex = size * current;
         if (toIndex > listSize) {
@@ -78,8 +78,12 @@ public class BaseMemoryDao<T extends BaseEntity> {
         }
         page.setTotal(listSize);
         page.setPages(listSize / size + (listSize % size == 0 ? 0 : 1));
-        page.setRecords(this.list.subList(fromIndex, toIndex));
+        page.setRecords(list.subList(fromIndex, toIndex));
         return page;
+    }
+
+    public Page<T> selectPage(Page<T> page) {
+        return this.selectPage(page, this.list);
     }
 
     public boolean insert(T t) {
@@ -96,9 +100,9 @@ public class BaseMemoryDao<T extends BaseEntity> {
         return this.list.remove(getIndexById(id));
     }
 
-    private int getIndexById(Integer id) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getId().equals(id)) {
+    protected int getIndexById(Integer id) {
+        for (int i = 0; i < this.list.size(); i++) {
+            if (this.list.get(i).getId().equals(id)) {
                 return i;
             }
         }

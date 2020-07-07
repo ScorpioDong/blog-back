@@ -1,14 +1,14 @@
 package cn.scorpiodong.blog.dao;
 
 import cn.scorpiodong.blog.entity.Blog;
+import cn.scorpiodong.blog.util.ListUtils;
 import cn.scorpiodong.blog.util.MarkdownUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author ScorpioDong
@@ -18,12 +18,20 @@ import java.util.List;
 @Repository
 public class BlogDao extends BaseMemoryDao<Blog> {
 
+    private Map<String, Map<String, List<Blog>>> archives;
+
+
+    public BlogDao() {
+        super();
+        archives = getArchive(this.list);
+    }
+
     @Override
     public Blog select(Integer id) {
         Blog blog = super.select(id);
         Blog obj = new Blog();
         BeanUtils.copyProperties(blog, obj, Blog.class);
-        String markdown = readToString(System.getProperty("user.dir") + blog.getContentPath());
+        String markdown = readToString(System.getProperty("user.home") + blog.getContentPath());
         obj.setContent(MarkdownUtils.convert(markdown));
         return obj;
     }
@@ -32,8 +40,34 @@ public class BlogDao extends BaseMemoryDao<Blog> {
         Blog blog = super.select(id);
         Blog obj = new Blog();
         BeanUtils.copyProperties(blog, obj, Blog.class);
-        obj.setContent(readToString(System.getProperty("user.dir") + blog.getContentPath()));
+        obj.setContent(readToString(System.getProperty("user.home") + blog.getContentPath()));
         return obj;
+    }
+
+    public Blog selectPrev(Integer id) {
+        int index = this.getIndexById(id);
+        if (index == 0 || index == -1) {
+            return null;
+        }
+        Blog blog = this.list.get(index - 1);
+        Blog obj = new Blog();
+        BeanUtils.copyProperties(blog, obj, Blog.class);
+        return obj;
+    }
+
+    public Blog selectNext(Integer id) {
+        int index = this.getIndexById(id);
+        if (index == this.list.size() - 1 || index == -1) {
+            return null;
+        }
+        Blog blog = this.list.get(index + 1);
+        Blog obj = new Blog();
+        BeanUtils.copyProperties(blog, obj, Blog.class);
+        return obj;
+    }
+
+    public Map<String, Map<String, List<Blog>>> selectArchives() {
+        return this.archives;
     }
 
     @Override
@@ -42,7 +76,7 @@ public class BlogDao extends BaseMemoryDao<Blog> {
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
             String fileName = blog.getTitle() + "-" + format.format(blog.getCreateTime()) + ".md";
             String filePath = "/.blog/data/markdown/";
-            File dest = new File(System.getProperty("user.dir") + filePath + fileName);
+            File dest = new File(System.getProperty("user.home") + filePath + fileName);
             Writer writer = new BufferedWriter(new FileWriter(dest));
             writer.write(blog.getContent());
             writer.flush();
@@ -50,6 +84,7 @@ public class BlogDao extends BaseMemoryDao<Blog> {
 
             blog.setContentPath(filePath + fileName);
             blog.setContent(null);
+            archives = getArchive(this.list);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -60,7 +95,7 @@ public class BlogDao extends BaseMemoryDao<Blog> {
     @Override
     public Blog update(Blog blog) {
         try {
-            File dest = new File(System.getProperty("user.dir") + blog.getContentPath());
+            File dest = new File(System.getProperty("user.home") + blog.getContentPath());
             Writer writer = new BufferedWriter(new FileWriter(dest));
             writer.write(blog.getContent());
             writer.flush();
@@ -98,5 +133,30 @@ public class BlogDao extends BaseMemoryDao<Blog> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private Map<String, Map<String, List<Blog>>> getArchive(List<Blog> list) {
+        Map<String, Map<String, List<Blog>>> map = new HashMap<>();
+        List<Blog> blogs = ListUtils.deepCopy(list);
+        if (blogs != null) {
+            blogs.sort(Comparator.comparing(Blog::getCreateTime));
+        }
+
+        if (blogs != null) {
+            for (Blog blog : blogs) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(blog.getCreateTime());
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1;
+                Map<String, List<Blog>> mapYear = map.computeIfAbsent(year + "", k -> new HashMap<>());
+                List<Blog> mapMonth = mapYear.computeIfAbsent(month + "", k -> new ArrayList<>());
+                Blog obj = new Blog();
+                obj.setId(blog.getId());
+                obj.setTitle(blog.getTitle());
+                obj.setCreateTime(blog.getCreateTime());
+                mapMonth.add(obj);
+            }
+        }
+        return map;
     }
 }

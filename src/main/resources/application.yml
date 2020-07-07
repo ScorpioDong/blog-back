@@ -2,14 +2,9 @@ server:
   port: 8080
   servlet:
     context-path: /api
+  max-http-header-size: 8192
 
 spring:
-  mvc:
-    static-path-pattern: /**
-
-  resources:
-    static-locations: file:.blog/static/
-
   servlet:
     multipart:
       max-file-size: 20MB
@@ -19,4 +14,4 @@ logging:
   level:
     root: info
   file:
-    path: .blog/data/log
+    path: log
