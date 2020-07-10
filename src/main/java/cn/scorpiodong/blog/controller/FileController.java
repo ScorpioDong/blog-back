@@ -2,7 +2,6 @@ package cn.scorpiodong.blog.controller;
 
 import cn.scorpiodong.blog.util.JsonResult;
 import cn.scorpiodong.blog.util.token.TokenRequired;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +16,6 @@ import java.util.UUID;
  * @version 1.0
  * @date 2020/6/15 4:44 下午
  */
-@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/file")

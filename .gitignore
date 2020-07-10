@@ -1,10 +1,10 @@
 HELP.md
-.blog/
-target/
-spring.log
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
+.gradle
+build/
+log/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 ### STS ###
 .apt_generated
@@ -20,6 +20,9 @@ spring.log
 *.iws
 *.iml
 *.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
 ### NetBeans ###
 /nbproject/private/
@@ -27,12 +30,25 @@ spring.log
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
 
 ### VS Code ###
 .vscode/
-
-# General
 .DS_Store
-.AppleDouble
-.LSOverride
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+log/
+settings.gradle
+src/.DS_Store
+src/main/.DS_Store
+src/main/java/.DS_Store
+src/main/java/cn/.DS_Store
+src/main/java/cn/scorpiodong/.DS_Store
+src/main/java/cn/scorpiodong/blog/.DS_Store
+src/main/resources/.DS_Store
+src/main/resources/static/
+src/main/resources/templates/
+src/test/.DS_Store
+src/test/java/
+target/
