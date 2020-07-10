@@ -34,12 +34,6 @@ out/
 ### VS Code ###
 .vscode/
 .DS_Store
-build.gradle
-gradle/
-gradlew
-gradlew.bat
-log/
-settings.gradle
 src/.DS_Store
 src/main/.DS_Store
 src/main/java/.DS_Store
